@@ -144,7 +144,7 @@ etc.
 * NPM
   * `npm i grapesjs-blocks-bootstrap4`
 * GIT
-  * `git clone https://github.com/kaoz70/grapesjs-blocks-bootstrap4.git`
+  * `git clone https://github.com/jcsofts/grapesjs-blocks-bootstrap4.git`
 
 
 
@@ -201,7 +201,7 @@ etc.
 Clone the repository
 
 ```sh
-$ git clone https://github.com/kaoz70/grapesjs-blocks-bootstrap4.git
+$ git clone https://github.com/jcsofts/grapesjs-blocks-bootstrap4.git
 $ cd grapesjs-blocks-bootstrap4
 ```
 

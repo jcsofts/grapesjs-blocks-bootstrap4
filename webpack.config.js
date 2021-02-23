@@ -10,11 +10,24 @@ let optimization = {};
 
 module.exports = (env = {}) => {
     if (env.production) {
-        optimization.minimizer = [
+        optimization = {
+            minimize: true,
+            minimizer: [
+                new TerserPlugin({
+                    parallel: true,
+                    terserOptions: {
+                        compress: {
+                            drop_console: true,
+                        }
+                    }
+                })
+            ]
+        };
+        /*optimization.minimizer = [
             new TerserPlugin({
                 parallel: true,
             })
-        ];
+        ];*/
         plugins = [
             new webpack.BannerPlugin(`${name} - ${pkg.version}`),
         ]
@@ -50,6 +63,9 @@ module.exports = (env = {}) => {
         plugins: plugins,
         watchOptions: {
             ignored: /node_modules/
+        },
+        devServer: {
+            port: 8000
         }
     };
 };

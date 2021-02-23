@@ -1,6 +1,6 @@
 {
   "name": "grapesjs-blocks-bootstrap4",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "description": "GrapesJS Bootstrap v4 Blocks Plugin",
   "main": "dist/grapesjs-blocks-bootstrap4.min.js",
   "scripts": {
@@ -9,21 +9,21 @@
     "v:minor": "npm version --no-git-tag-version minor",
     "build": "npm run v:patch && webpack --env production",
     "build-dev": "npm run && webpack --env production",
-    "start": "webpack-cli serve --mode development  --watch --progress"
+    "start": "webpack serve --mode development --progress"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/kaoz70/grapesjs-bootstrap4-blocks.git"
+    "url": "https://github.com/jcsofts/grapesjs-bootstrap4-blocks.git"
   },
   "keywords": [
     "grapesjs",
     "plugin",
     "bootstrap"
   ],
-  "author": "z1lk",
+  "author": "fedora",
   "license": "BSD-3-Clause",
   "peerDependencies": {
-    "grapesjs": "0.x"
+    "grapesjs": "^0.16.34"
   },
   "devDependencies": {
     "@babel/core": "^7.11.6",
@@ -38,8 +38,5 @@
     "webpack": "^5.6.0",
     "webpack-cli": "^4.2.0",
     "webpack-dev-server": "^3.11.0"
-  },
-  "dependencies": {
-    "npm": "^7.0.14"
   }
 }
