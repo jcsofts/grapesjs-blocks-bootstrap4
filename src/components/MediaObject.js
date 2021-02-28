@@ -32,7 +32,7 @@ export default (domc) => {
         }, {
             isComponent(el) {
                 if(el && el.classList && el.classList.contains('media')) {
-                    return {type: 'media'};
+                    return { type: 'media_object' };
                 }
             }
         }),
@@ -48,8 +48,8 @@ export default (domc) => {
             })
         }, {
             isComponent(el) {
-                if(el && el.classList && el.classList.contains('media-body')) {
-                    return {type: 'media_body'};
+                if (el && el.classList && el.classList.contains('media-body')) {
+                    return { type: 'text' };
                 }
             }
         }),

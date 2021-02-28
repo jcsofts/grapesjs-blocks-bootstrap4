@@ -1,6 +1,6 @@
 # GrapesJS Bootstrap v4 Blocks Plugin
 
-[![npm](https://img.shields.io/npm/v/grapesjs-blocks-bootstrap4.svg)](https://www.npmjs.com/package/grapesjs-blocks-bootstrap4)
+[![npm](https://img.shields.io/npm/v/grapesjs-blocks-bootstrap4.svg)](https://www.npmjs.com/package/grapesjs-bootstrap4-blocks)
 
 <!--<span><a href="https://david-dm.org/z1lk/grapesjs-plugin-boilerplate#info=devDependencies" title="View the status of this project's development dependencies on DavidDM"><img src="https://img.shields.io/david/dev/artf/grapesjs-plugin-boilerplate.svg" alt="Dev Dependency Status" /></a></span>-->
 
@@ -142,7 +142,7 @@ etc.
 <!--* CDN
   * `https://unpkg.com/grapesjs-blocks-bootstrap4` -->
 * NPM
-  * `npm i grapesjs-blocks-bootstrap4`
+  * `npm i grapesjs-bootstrap4-blocks`
 * GIT
   * `git clone https://github.com/jcsofts/grapesjs-blocks-bootstrap4.git`
 
@@ -155,7 +155,7 @@ etc.
 ```html
 <link href="https://unpkg.com/grapesjs/dist/css/grapes.min.css" rel="stylesheet"/>
 <script src="https://unpkg.com/grapesjs"></script>
-<script src="path/to/grapesjs-blocks-bootstrap4.min.js"></script>
+<script src="path/to/grapesjs-bootstrap4-blocks.min.js"></script>
 
 <div id="gjs"></div>
 
