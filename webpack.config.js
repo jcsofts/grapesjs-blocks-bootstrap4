@@ -3,6 +3,8 @@ const TerserPlugin = require("terser-webpack-plugin");
 const pkg = require('./package.json');
 const webpack = require('webpack');
 const fs = require('fs');
+const path = require('path');
+
 const name = pkg.name;
 let plugins = [];
 let optimization = {};
@@ -23,11 +25,7 @@ module.exports = (env = {}) => {
                 })
             ]
         };
-        /*optimization.minimizer = [
-            new TerserPlugin({
-                parallel: true,
-            })
-        ];*/
+        
         plugins = [
             new webpack.BannerPlugin(`${name} - ${pkg.version}`),
         ]
@@ -40,6 +38,8 @@ module.exports = (env = {}) => {
     }
 
     return {
+        devtool: env.production ? false : 'inline-source-map',
+        watch: env.production ? false : true,
         mode: env.production ? 'production' : 'development',
         entry: './src',
         output: {
@@ -66,6 +66,11 @@ module.exports = (env = {}) => {
         },
         devServer: {
             port: 8000
+        },
+        resolve: {
+            alias: {
+                '@': path.resolve("src")
+            },
         }
     };
 };

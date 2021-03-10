@@ -35,17 +35,16 @@ const loadCss = editor => {
       min-height: 1.5rem !important;
     }
     .gjs-dashed .collapse {
-      display: block !important;
+      /*display: block !important;*/
       min-height: 1.5rem !important;
     }
-    .gjs-dashed .dropdown {
-      display: block !important;
-      min-height: 1.5rem !important;
+    /*.gjs-dashed .navbar-nav{
+      padding:3px !important;
     }
-    .gjs-dashed .dropdown-menu {
-      min-height: 1.5rem !important;
-      display: block !important;
-    }
+    .gjs-dashed .navbar-nav .nav-item{
+      margin:auto 2px !important;
+    }*/
+    
   `
 };
 
@@ -83,6 +82,10 @@ export default grapesjs.plugins.add('grapesjs-blocks-bootstrap4', (editor, opts 
     collapse: true,
     dropdown: true,
     video: true,
+
+    navbar:true,
+    menu:true,
+
     // TYPOGRAPHY
     header: true,
     paragraph: true,
@@ -123,6 +126,11 @@ export default grapesjs.plugins.add('grapesjs-blocks-bootstrap4', (editor, opts 
     dropdown: 'Dropdown',
     dropdown_menu: 'Dropdown Menu',
     dropdown_item: 'Dropdown Item',
+
+    navbar: 'Navbar',
+    menu:'Menu',
+    menu_link: 'Menu Link',
+    dropdown_link:'Dropdown Menu',
 
     // MEDIA
     image: 'Image',

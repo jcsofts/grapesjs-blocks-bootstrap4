@@ -1,5 +1,5 @@
 import Collapse, {CollapseBlock} from './components/Collapse';
-import Dropdown, {DropDownBlock} from './components/Dropdown';
+import Dropdown, { DropDownBlock, DropDownItemBlock} from './components/Dropdown';
 import TabsNavigation, {TabsBlock} from "./components/tabs/TabsNavigation";
 import TabsPanes from "./components/tabs/TabsPanes";
 import Tab from "./components/tabs/Tab";
@@ -32,7 +32,10 @@ import Row, {RowBlock} from "./components/Row";
 import Container, {ContainerBlock} from "./components/Container";
 import Text, {TextBlock} from "./components/Text";
 import Default from "./components/Default";
-
+import NavBar,{NavBarBlock} from "./components/navbar/NavBar";
+import Menu, { MenuBlock } from "./components/navbar/Menu";
+import MenuLink, { MenuLinkBlock } from "./components/navbar/MenuLink";
+import { DropDownLinkBlock } from "./components/navbar/DropDownLink";
 
 export default (editor, config = {}) => {
   const c = config;
@@ -175,10 +178,26 @@ export default (editor, config = {}) => {
       Collapse(editor);
     }
 
+    if (blocks.dropdown || blocks.navbar){
+      Dropdown(editor);
+      DropDownItemBlock(bm, c.labels.dropdown_item);
+    }
+
     // Dropdown
     if (blocks.dropdown) {
       DropDownBlock(bm, c.labels.dropdown);
-      Dropdown(editor);
+    }
+
+    if(blocks.navbar){
+      NavBarBlock(bm, c.labels.navbar);
+      NavBar(editor);
+      DropDownLinkBlock(bm, c.labels.dropdown_link);
+
+      MenuBlock(bm, c.labels.menu);
+      Menu(editor);
+
+      MenuLinkBlock(bm, c.labels.menu_link);
+      MenuLink(editor);
     }
 
   }

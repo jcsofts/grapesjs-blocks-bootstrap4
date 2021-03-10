@@ -4,6 +4,7 @@ known issues:
 */
 
 import caretIcon from "raw-loader!../icons/caret-square-down-regular.svg";
+import dropdownItemIcon from "raw-loader!../icons/dropdown-item.svg";
 
 export const DropDownBlock = (bm, label) => {
     bm.add('dropdown', {
@@ -12,9 +13,18 @@ export const DropDownBlock = (bm, label) => {
             <div>${label}</div>
         `,
         category: 'Components',
-        content: {
-            type: 'dropdown'
-        }
+        content: `
+        <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Dropdown button
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <a class="dropdown-item" href="#">Action</a>
+                <a class="dropdown-item" href="#">Another action</a>
+                <a class="dropdown-item" href="#">Something else here</a>
+            </div>
+        </div>
+        `
     });
     /*bm.add('dropdown_menu', {
       label: c.labels.dropdown_menu,
@@ -23,16 +33,22 @@ export const DropDownBlock = (bm, label) => {
       content: {
         type: 'dropdown_menu'
       }
-    });
-    bm.add('dropdown_item', {
-      label: c.labels.dropdown_item,
-      category: 'Components',
-      attributes: {class:'fa fa-link'},
-      content: {
-        type: 'dropdown_item'
-      }
     });*/
 };
+
+export const DropDownItemBlock=(bm,label)=>{
+    bm.add('dropdown_item', {
+        label: `
+            ${dropdownItemIcon}
+            <div>${label}</div>
+        `,
+        category: 'Components',
+        attributes: { class: 'dropdown-item' },
+        content: `
+            <a class="dropdown-item" href="#">DropdownItem</a>
+        `
+    });
+}
 
 export default (editor) => {
     const comps = editor.DomComponents;
@@ -53,6 +69,7 @@ export default (editor) => {
                 'custom-name': 'Dropdown',
                 classes: ['dropdown'],
                 droppable: 'a, button, .dropdown-menu',
+                
                 traits: [
                     {
                         type: 'select',
@@ -67,16 +84,23 @@ export default (editor) => {
             },
 
             init2() {
-                const toggle = {
+                /*const toggle = {
                     type: 'button',
                     content: 'Click to toggle',
                     classes: ['btn', 'dropdown-toggle']
                 };
+                if(this.tagName=='li'){
+                    toggle = {
+                        type: 'link',
+                        content: 'Menu Item',
+                        classes: ['nav-link', 'dropdown-toggle']
+                    };
+                }
                 const toggle_comp = this.append(toggle)[0];
                 const menu = {
                     type: 'dropdown_menu'
                 };
-                const menu_comp = this.append(menu)[0];
+                const menu_comp = this.append(menu)[0];*/
                 this.setupToggle(null, null, {force: true});
                 const comps = this.components();
                 comps.bind('add', this.setupToggle.bind(this));
@@ -94,9 +118,8 @@ export default (editor) => {
                 if (options.force !== true && options.ignore === true) {
                     return;
                 }
-
+                
                 if (toggle && menu) {
-
                     // setup event listeners if they aren't set
                     if (!hasEvent(toggle)) {
                         this.listenTo(toggle, 'change:attributes', this.setupToggle);
@@ -120,11 +143,13 @@ export default (editor) => {
 
                     // setup menu
                     // toggle needs ID for aria-labelled on the menu, could alert here
-                    if (toggle_attrs.hasOwnProperty('id')) {
-                        menu_attrs['aria-labelledby'] = toggle_attrs.id;
+                    let toggleId=toggle.getId();
+                    if (toggleId) {
+                        menu_attrs['aria-labelledby'] = toggleId;
                     } else {
                         delete menu_attrs['aria-labelledby'];
                     }
+                    console.log('menu_attrs',menu_attrs);
                     menu.set('attributes', menu_attrs, {ignore: true});
                 }
             },
@@ -150,11 +175,28 @@ export default (editor) => {
         }, {
             isComponent(el) {
                 if (el && el.classList && el.classList.contains('dropdown')) {
-                    return {type: 'dropdown'};
+                    if (el.tagName == "LI" && el.classList.contains('nav-item')){
+                        return { type: 'dropdown', tagName: 'li', draggable: 'ul', classes:['nav-item','dropdown']}
+                    }else{
+                        return { type: 'dropdown' };
+                    }
                 }
             }
         }),
-        view: defaultView
+        view: defaultView.extend({
+            events: {
+                'click .dropdown-toggle': 'dropdownClick',
+            },
+
+            dropdownClick(ev) {
+                //ev.stopPropagation();
+                let dropdownMenu = ev.target.parentNode.querySelector('.dropdown-menu');
+                if (dropdownMenu){
+                    dropdownMenu.classList.toggle('show');
+                    ev.target.ariaExpanded = dropdownMenu.classList.contains('show');
+                }
+            },
+        })
     });
 
     // need aria-labelledby to equal dropdown-toggle id
@@ -168,25 +210,7 @@ export default (editor) => {
                 droppable: true
             }),
             init2() {
-                const header = {
-                    type: 'header',
-                    tagName: 'h6',
-                    classes: ['dropdown-header'],
-                    content: 'Dropdown header'
-                };
-                const link = {
-                    type: 'link',
-                    classes: ['dropdown-item'],
-                    content: 'Dropdown item'
-                };
-                const divider = {
-                    type: 'default',
-                    classes: ['dropdown-divider']
-                };
-                this.append(header);
-                this.append(link);
-                this.append(divider);
-                this.append(link);
+                
             }
         }, {
             isComponent(el) {
@@ -196,6 +220,30 @@ export default (editor) => {
             }
         }),
         view: defaultView,
+    });
+
+    const linkType = comps.getType('link');
+    const linkModel = linkType.model;
+    const linkView = linkType.view;
+
+    comps.addType('dropdown_item', {
+        
+        model: linkModel.extend({
+            defaults: Object.assign({}, defaultModel.prototype.defaults, {
+                'custom-name': 'Dropdown Item',
+                classes: ['dropdown-item'],
+                draggable: '.dropdown-menu',
+                droppable: true
+            }),
+            
+        }, {
+            isComponent(el) {
+                if (el && el.classList && el.classList.contains('dropdown-item')) {
+                    return { type: 'dropdown_item' };
+                }
+            }
+        }),
+        view: linkView,
     });
 
 }

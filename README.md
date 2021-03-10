@@ -28,6 +28,10 @@
     * `collapse`
     * `dropdown`
     * `dropdown_menu`
+    * `navbar`
+    * `menu`
+    * `menu_link`
+    * `dropdown_link`
   * Typography
     * `text`
     * `header`
@@ -102,6 +106,10 @@
 |`textarea`||true|
 |`checkbox`||true|
 |`radio`||true|
+|`navbar`|Boostrap Navbar|true|
+|`menu`|navbar menu|true|
+|`menu_link`|Menu Item|true|
+|`dropdown_link`|Dropdown Menu Item|true|
 
 ### Block Categories
 
