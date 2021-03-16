@@ -20,7 +20,7 @@ export const NavBarBlock = (bm, label) => {
     `,
     category: 'Components',
     content: `
-    <nav class="navbar navbar-expand-lg">
+    <nav class="navbar navbar-expand-lg navbar-light">
       <a class="navbar-brand" href="#">
         ${brandLogo}
       </a>
