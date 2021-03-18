@@ -63,19 +63,19 @@ export default (domc) => {
                         ],
                         label: 'Border radius'
                     },
-                    {
+                    /*{
                         type: 'text',
                         label: 'ID',
                         name: 'id',
                         placeholder: 'my_element'
-                    },
+                    },*/
                     {
                         type: 'text',
                         label: 'Title',
                         name: 'title',
                         placeholder: 'My Element'
                     }
-                ] //.concat(defaultModel.prototype.defaults.traits)
+                ].concat(defaultModel.prototype.defaults.traits)
             }),
             init() {
                 const classes = this.get('classes');

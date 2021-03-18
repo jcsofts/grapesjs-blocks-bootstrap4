@@ -175,7 +175,7 @@ export default (editor) => {
         }, {
             isComponent(el) {
                 if (el && el.classList && el.classList.contains('dropdown')) {
-                    if (el.tagName == "LI" && el.classList.contains('nav-item')){
+                    if (el.tagName == "LI" && el.classList.contains('nav-item') && el.attributes['role'] == undefined){
                         return { type: 'dropdown', tagName: 'li', draggable: 'ul', classes:['nav-item','dropdown']}
                     }else{
                         return { type: 'dropdown' };

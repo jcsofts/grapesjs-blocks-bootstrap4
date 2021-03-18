@@ -66,21 +66,22 @@ export default (editor) => {
             }),
             init2() {
                 //textModel.prototype.init.call(this);
-                this.listenTo(this, 'change:data-toggle', this.setupToggle);
-                this.listenTo(this, 'change:attributes', this.setupToggle); // for when href changes
+                this.listenTo(this, 'change:data-toggle', this.setupToggle.bind(this));
+
+                //there some bug for this event, the id can't changed
+                //this.listenTo(this, 'change:attributes', this.setupToggle.bind(this)); // for when href changes
             },
             setupToggle(a, b, options = {}) { // TODO this should be in the dropdown comp and not the link comp
                 if (options.ignore === true && options.force !== true) {
                     return;
                 }
-                console.log('setup toggle');
                 const attrs = this.getAttributes();
                 const href = attrs.href;
                 // old attributes are not removed from DOM even if deleted...
-                delete attrs['data-toggle'];
-                delete attrs['aria-expanded'];
-                delete attrs['aria-controls'];
-                delete attrs['aria-haspopup'];
+                //delete attrs['data-toggle'];
+                //delete attrs['aria-expanded'];
+                //delete attrs['aria-controls'];
+                //delete attrs['aria-haspopup'];
                 if (href && href.length > 0 && href.match(/^#/)) {
                     console.log('link has href');
                     // find the el where id == link href
@@ -112,7 +113,8 @@ export default (editor) => {
                         }
                     }
                 }
-                this.set('attributes', attrs, {ignore: true});
+                console.log('link attr',attrs);
+                this.set('attributes', attrs, { ignore: true, merge:true});
             },
             classesChanged(e) {
                 console.log('classes changed');

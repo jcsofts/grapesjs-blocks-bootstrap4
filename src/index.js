@@ -208,6 +208,7 @@ export default grapesjs.plugins.add('grapesjs-blocks-bootstrap4', (editor, opts 
     classTabPanes: 'tab-content',
     classTabPane: 'tab-pane',
     classTab: 'nav-item',
+    classTabs:'tabs',
   },  ...opts };
 
   // Add components

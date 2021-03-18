@@ -29,13 +29,14 @@ export default (editor) =>{
         ...defaultModel.prototype.defaults,
         'custom-name': 'MenuLink',
         classes: ['nav-item'],
+        style: { 'min-width': '10px' },
         draggable: '.navbar-nav',
         droppable: 'a'
       },
       
     }, {
       isComponent(el) {
-        if (el && el.tagName == "LI" && el.classList && (el.classList.contains('nav-item') && !el.classList.contains('dropdown') )) {
+        if (el && el.tagName == "LI" && el.children && el.children.length > 0 && !el.children[0].hasAttribute('role') && el.classList && (el.classList.contains('nav-item') && !el.classList.contains('dropdown') )) {
           return { type: 'menu_link' }
         }
       }

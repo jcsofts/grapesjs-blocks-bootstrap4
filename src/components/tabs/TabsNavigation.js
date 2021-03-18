@@ -1,62 +1,12 @@
 import constants from './constants';
 import { elHasClass } from '../../utils';
-import ellipsisIcon from "raw-loader!../../icons/ellipsis-h-solid.svg";
-import circleIcon from "raw-loader!../../icons/circle-solid.svg";
-import windowIcon from "raw-loader!../../icons/window-maximize-solid.svg";
-
-export const TabsBlock = (bm, c) => {
-    bm.add('tabs', {
-        label: `
-            ${ellipsisIcon}
-            <div>${c.labels.tabs}</div>
-        `,
-        category: 'Components',
-        content: `
-            <ul class="nav nav-tabs" role="tablist">
-              <li class="nav-item">
-                <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Tab 1</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Tab 2</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">Tab 3</a>
-              </li>
-            </ul>
-            <div class="tab-content">
-              <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab"></div>
-              <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab"></div>
-              <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab"></div>
-            </div>
-        `
-    });
-    bm.add('tabs-tab', {
-        label: `
-            ${circleIcon}
-            <div>${c.labels.tab}</div>
-        `,
-        category: 'Components',
-        content: {
-            type: 'tabs-tab',
-        }
-    });
-    bm.add('tabs-tab-pane', {
-        label: `
-            ${windowIcon}
-            <div>${c.labels.tabPane}</div>
-        `,
-        category: 'Components',
-        content: {
-            type: 'tabs-tab-pane',
-        }
-    });
-};
 
 export default (dc, config = {}) => {
     const defaultType = dc.getType('default');
     const defaultModel = defaultType.model;
     const defaultView = defaultType.view;
-    const { navigationName, tabSelector } = constants;
+    const { navigationName, tabName, tabSelector, tabPaneName, tabPanesName } = constants;
+
     const classId = config.classNavigation;
     const type = navigationName;
 
@@ -66,10 +16,13 @@ export default (dc, config = {}) => {
             defaults: {
                 ...defaultModel.prototype.defaults,
                 name: 'Tabs Navigation',
-                copyable: 0,
+                copyable: false,
                 draggable: true,
+                removable: false,
                 droppable: tabSelector,
-
+                tagName: 'ul',
+                attributes: { role:'tablist'},
+                classes: ['nav', 'nav-tabs'],
                 traits: [
                     {
                         type: 'class_select',
@@ -89,10 +42,63 @@ export default (dc, config = {}) => {
                         label: 'Layout',
                     },
                 ],
+                
             },
 
-            init() {
+            init2() {
                 this.get('classes').pluck('name').indexOf(classId) < 0 && this.addClass(classId);
+                //findType()
+
+                //this.setupToggle();
+                const comps = this.components();
+                comps.bind('add', this.onTabAdd.bind(this));
+                comps.bind('remove', this.onTabRemove.bind(this));
+            },
+        
+            onTabAdd(comp,b,options={}){
+                //console.log('add tabs',comp,parent,options)
+                const panelsList = this.parent().findType(tabPanesName);
+                const links = comp.findType('link');
+                if (panelsList.length > 0 && links.length>0){
+                    const link = links[0];
+                    const panes=panelsList[0];
+                    const newComp = panes.components().add({
+                        type: tabPaneName,
+                        attributes: {'aria-labelledby':link.getId()}
+                    }, { at:panes.components().length});
+                    
+                    let link_attrs = link.getAttributes();
+                    
+                    link_attrs['href']=`#${newComp.getId()}`;
+                    link_attrs['aria-controls']=newComp.getId();
+                    
+                    link.setAttributes(link_attrs);
+                    link.set('attributes',link_attrs);
+                    if(this.components().length==1){
+                        if (link.getClasses().indexOf('active')==-1){
+                            link.addClass('active');
+                        }
+                        if(newComp.getClasses().indexOf('active')==-1){
+                            newComp.addClass(['show','active']);
+                        }
+                    }
+                }
+            },
+            onTabRemove(comp, params, options = {}) {
+                const panelsList = this.parent().findType(tabPanesName);
+                const links = comp.findType('link');
+
+                if (panelsList.length > 0 && links.length > 0) {
+                    const link = links[0];
+                    const panes = panelsList[0];
+
+                    const tabPanes = panes.components();
+                    
+                    const removePaneList = tabPanes.filter(pane => pane.is(tabPaneName) && pane.getAttributes()['aria-labelledby']==link.getId());
+                    
+                    tabPanes.remove(removePaneList);
+
+                }
             }
         }, {
             isComponent(el) {
@@ -101,32 +107,28 @@ export default (dc, config = {}) => {
         }),
 
         view: defaultView.extend({
-            init() {
-                const props = [
-                    'type',
-                    'layout',
-                ];
-                const reactTo = props.map(prop => `change:${prop}`).join(' ');
-                this.listenTo(this.model, reactTo, this.render);
-                const comps = this.model.components();
-
-                // Add a basic template if it's not yet initialized
-                if (!comps.length) {
-                    comps.add(`
-                        <ul class="nav nav-tabs" role="tablist">
-                          <li class="nav-item">
-                            <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Tab 1</a>
-                          </li>
-                          <li class="nav-item">
-                            <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Tab 2</a>
-                          </li>
-                          <li class="nav-item">
-                            <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">Tab 3</a>
-                          </li>
-                        </ul>
-                    `);
-                }
+            events: {
+                'click .nav-link': 'onLinkClick',
             },
-        }),
+
+            onLinkClick(ev) {
+                const links = ev.target.parentNode.parentNode.querySelectorAll('.nav-link');
+                links.forEach(link =>{
+                    link.classList.remove('active');
+                })
+                ev.target.classList.add('active');
+
+                const tabId = ev.target.getAttribute('aria-controls');
+                const panes = ev.target.parentNode.parentNode.parentNode.querySelectorAll('.tab-pane');
+                panes.forEach(pane=>{
+                    if (pane.getAttribute('id') == tabId){
+                        pane.classList.add('show', 'active');
+                    }else{ 
+                        pane.classList.remove('show', 'active');
+                    }
+                })
+
+            },
+        })
     });
 }

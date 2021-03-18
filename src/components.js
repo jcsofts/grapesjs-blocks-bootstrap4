@@ -1,6 +1,7 @@
 import Collapse, {CollapseBlock} from './components/Collapse';
 import Dropdown, { DropDownBlock, DropDownItemBlock} from './components/Dropdown';
-import TabsNavigation, {TabsBlock} from "./components/tabs/TabsNavigation";
+import TabsNavigation from "./components/tabs/TabsNavigation";
+import Tabs,{TabsBlock} from "./components/tabs/Tabs";
 import TabsPanes from "./components/tabs/TabsPanes";
 import Tab from "./components/tabs/Tab";
 import TabPane from "./components/tabs/TabPane";
@@ -155,6 +156,7 @@ export default (editor, config = {}) => {
     if (blocks.tabs) {
       TabsBlock(bm, c);
       TabsNavigation(domc, config);
+      Tabs(domc, config);
       Tab(domc, config);
       TabsPanes(domc, config);
       TabPane(domc, config);
