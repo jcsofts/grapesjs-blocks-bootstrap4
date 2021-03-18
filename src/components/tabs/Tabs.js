@@ -86,11 +86,13 @@ export default (dc, config = {}) => {
                 tabPane = tabPanes[i];
                 let linkAttrs=link.getAttributes();
                 linkAttrs['href'] = `#${tabPane.getId()}`;
+                linkAttrs['id']=link.getId();
                 linkAttrs['aria-controls'] = tabPane.getId();
                 link.setAttributes(linkAttrs);
 
                 let tabPaneAttrs=tabPane.getAttributes();
                 tabPaneAttrs['aria-labelledby'] = link.getId();
+                tabPaneAttrs['id']=tabPane.getId();
                 tabPane.setAttributes(tabPaneAttrs);
               }
             }

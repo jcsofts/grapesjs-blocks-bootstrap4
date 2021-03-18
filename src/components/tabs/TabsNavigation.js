@@ -69,11 +69,17 @@ export default (dc, config = {}) => {
                     
                     let link_attrs = link.getAttributes();
                     
+                    link_attrs['id']=link.getId();
                     link_attrs['href']=`#${newComp.getId()}`;
                     link_attrs['aria-controls']=newComp.getId();
                     
                     link.setAttributes(link_attrs);
                     link.set('attributes',link_attrs);
+
+                    const newCompAttrs=newComp.getAttributes();
+                    newCompAttrs['id']=newComp.getId();
+                    newComp.setAttributes(newCompAttrs);
+
                     if(this.components().length==1){
                         if (link.getClasses().indexOf('active')==-1){
                             link.addClass('active');

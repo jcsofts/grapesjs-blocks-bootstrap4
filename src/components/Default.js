@@ -63,12 +63,12 @@ export default (domc) => {
                         ],
                         label: 'Border radius'
                     },
-                    /*{
+                    {
                         type: 'text',
                         label: 'ID',
                         name: 'id',
                         placeholder: 'my_element'
-                    },*/
+                    },
                     {
                         type: 'text',
                         label: 'Title',
