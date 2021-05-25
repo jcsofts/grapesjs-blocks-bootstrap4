@@ -233,13 +233,14 @@ export default (editor) => {
                 'custom-name': 'Dropdown Item',
                 classes: ['dropdown-item'],
                 draggable: '.dropdown-menu',
-                droppable: true
+                droppable: true,
+                contenteditable:true
             }),
             
         }, {
             isComponent(el) {
                 if (el && el.classList && el.classList.contains('dropdown-item')) {
-                    return { type: 'dropdown_item' };
+                    return { type: 'link' };
                 }
             }
         }),

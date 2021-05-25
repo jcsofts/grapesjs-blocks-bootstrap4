@@ -38,18 +38,6 @@ const loadCss = editor => {
       /*display: block !important;*/
       min-height: 1.5rem !important;
     }
-    /*.gjs-dashed .navbar-nav{
-      padding:3px !important;
-    }
-    .gjs-dashed .navbar-nav .nav-item{
-      margin:auto 2px !important;
-    }*/
-    .gjs-dashed .navbar-custom .dropdown:hover > .dropdown-menu,.gjs-dashed .navbar .dropdown:hover > .dropdown-menu{
-      display:none;
-    }
-    .gjs-dashed .navbar-custom .dropdown:hover > .dropdown-menu.show,.gjs-dashed .navbar .dropdown:hover > .dropdown-menu.show{
-      display:none;
-    }
   `
 };
 

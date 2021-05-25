@@ -34,12 +34,14 @@ export default (domComponent) => {
                     {
                         type: 'text',
                         label: 'Source (URL)',
-                        name: 'src'
+                        name: 'src',
+                        changeProp: 1
                     },
                     {
                         type: 'text',
                         label: 'Alternate text',
-                        name: 'alt'
+                        name: 'alt',
+                        changeProp: 1
                     }
                 ].concat(model.prototype.defaults.traits)
             })

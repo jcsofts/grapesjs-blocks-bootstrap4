@@ -1,6 +1,6 @@
 {
   "name": "grapesjs-bootstrap4-blocks",
-  "version": "0.2.13",
+  "version": "0.2.15",
   "description": "GrapesJS Bootstrap v4 Blocks Plugin",
   "main": "dist/grapesjs-bootstrap4-blocks.min.js",
   "scripts": {
