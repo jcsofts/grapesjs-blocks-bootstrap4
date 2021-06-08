@@ -37,6 +37,7 @@ import NavBar,{NavBarBlock} from "./components/navbar/NavBar";
 import Menu, { MenuBlock } from "./components/navbar/Menu";
 import MenuLink, { MenuLinkBlock } from "./components/navbar/MenuLink";
 import { DropDownLinkBlock } from "./components/navbar/DropDownLink";
+import Separator, {SeparatorBlock} from "./components/Separator"
 
 export default (editor, config = {}) => {
   const c = config;
@@ -214,6 +215,10 @@ export default (editor, config = {}) => {
       ParagraphBlock(bm, c.labels.paragraph);
       Paragraph(domc);
     }
+    if (blocks.separator) {
+      SeparatorBlock(bm, c.labels.separator);
+      Separator(domc);
+    }
   }
 
   if(cats.forms) {
@@ -271,9 +276,11 @@ export default (editor, config = {}) => {
     }
 
     if (blocks.button_toolbar) {
-      ButtonToolbarBlock(bm, c.labels.button_toolbar, c);
+      ButtonToolbarBlock(bm, c.labels.button_toolbar);
       ButtonToolbar(domc);
     }
+
+    
   }
 
 }

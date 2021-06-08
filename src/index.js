@@ -82,6 +82,7 @@ export default grapesjs.plugins.add('grapesjs-blocks-bootstrap4', (editor, opts 
     // TYPOGRAPHY
     header: true,
     paragraph: true,
+    separator: true,
     // BASIC
     list: true,
     // FORMS
@@ -131,6 +132,7 @@ export default grapesjs.plugins.add('grapesjs-blocks-bootstrap4', (editor, opts 
 
     // TYPOGRAPHY
     text: 'Text',
+    separator:'Separator',
 
     // BASIC
     header: 'Header',
